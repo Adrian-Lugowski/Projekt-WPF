@@ -8,7 +8,12 @@ namespace Projekt_WPF
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModel();
+
+            var vm = new MainViewModel();
+
+            vm.CloseAction = () => this.Close();
+
+            this.DataContext = vm;
         }
     }
 }

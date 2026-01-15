@@ -14,12 +14,26 @@ namespace Projekt_WPF.ViewModels
             set => SetProperty(ref _newWonder, value);
         }
 
-        public ICommand SaveCommand { get; }
+        public string WindowTitle => NewWonder.Id == 0 ? "Dodaj Cud Świata" : "Edytuj Cud Świata";
 
+        public ICommand SaveCommand { get; }
         public Action? CloseAction { get; set; }
 
-        public AddWonderViewModel()
+        public AddWonderViewModel(Wonder? wonderToEdit = null)
         {
+            if (wonderToEdit != null)
+            {
+                NewWonder = new Wonder
+                {
+                    Id = wonderToEdit.Id,
+                    Name = wonderToEdit.Name,
+                    Location = wonderToEdit.Location,
+                    Description = wonderToEdit.Description,
+                    ImagePath = wonderToEdit.ImagePath,
+                    DateBuilt = wonderToEdit.DateBuilt
+                };
+            }
+
             SaveCommand = new RelayCommand(Save);
         }
 
@@ -33,12 +47,19 @@ namespace Projekt_WPF.ViewModels
 
             using (var context = new AppDbContext())
             {
-                context.Wonders.Add(NewWonder);
+                if (NewWonder.Id == 0)
+                {
+                    context.Wonders.Add(NewWonder);
+                }
+                else
+                {
+                    context.Wonders.Update(NewWonder);
+                }
+
                 context.SaveChanges();
             }
 
-            MessageBox.Show("Dodano pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            MessageBox.Show("Zapisano pomyślnie!", "Sukces", MessageBoxButton.OK, MessageBoxImage.Information);
             CloseAction?.Invoke();
         }
     }

@@ -11,11 +11,23 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="⬅ Menu" 
+                    Command="{Binding NavigateBackCommand}" 
+                    Padding="10,5" 
+                    Margin="0,0,20,0" 
+                    Background="Transparent" 
+                    BorderBrush="Gray"/>
+
             <Button Content="+ Dodaj Nowy" Command="{Binding OpenAddWindowCommand}" Padding="10,5" Background="#DDDDDD"/>
-            <Button Content="Odśwież" Command="{Binding LoadDataCommand}" Margin="10,0,0,0" Padding="10,5"/>
+            <Button Content="✏️ Edytuj" Command="{Binding EditCommand}" Margin="10,0,0,0" Padding="10,5"/>
+            <Button Content="🗑️ Usuń" Command="{Binding DeleteCommand}" Margin="10,0,0,0" Padding="10,5" Background="#FFCCCC"/>
+            <Button Content="Odśwież" Command="{Binding LoadDataCommand}" Margin="20,0,0,0" Padding="10,5"/>
         </StackPanel>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Wonders}" BorderThickness="1" BorderBrush="Gray">
+        <ListView Grid.Row="1" 
+                  ItemsSource="{Binding Wonders}" 
+                  SelectedItem="{Binding SelectedWonder}"
+                  BorderThickness="1" BorderBrush="Gray">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="200"/>
