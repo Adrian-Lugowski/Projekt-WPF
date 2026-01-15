@@ -11,7 +11,10 @@ namespace Projekt_WPF
 
         private void OpenView_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Tu będzie tryb przeglądania (Galeria)!", "Informacja");
+            GalleryWindow gallery = new GalleryWindow();
+            gallery.Show();
+
+            this.Close();
         }
 
         private void OpenManage_Click(object sender, RoutedEventArgs e)
