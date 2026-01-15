@@ -1,6 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
+using Projekt_WPF.Data;
 
 namespace Projekt_WPF
 {
@@ -9,6 +8,14 @@ namespace Projekt_WPF
     /// </summary>
     public partial class App : Application
     {
-    }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
 
+            using (var context = new AppDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
+        }
+    }
 }
