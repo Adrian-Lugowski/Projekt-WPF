@@ -1,4 +1,5 @@
-﻿using Projekt_WPF.Data;
+﻿using Microsoft.Win32;
+using Projekt_WPF.Data;
 using Projekt_WPF.Models;
 using System.Windows;
 using System.Windows.Input;
@@ -17,6 +18,7 @@ namespace Projekt_WPF.ViewModels
         public string WindowTitle => NewWonder.Id == 0 ? "Dodaj Cud Świata" : "Edytuj Cud Świata";
 
         public ICommand SaveCommand { get; }
+        public ICommand SelectImageCommand { get; }
         public Action? CloseAction { get; set; }
 
         public AddWonderViewModel(Wonder? wonderToEdit = null)
@@ -35,6 +37,22 @@ namespace Projekt_WPF.ViewModels
             }
 
             SaveCommand = new RelayCommand(Save);
+            SelectImageCommand = new RelayCommand(SelectImage);
+        }
+
+        private void SelectImage(object? parameter)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Pliki obrazów|*.jpg;*.jpeg;*.png;*.bmp",
+                Title = "Wybierz zdjęcie obiektu"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                NewWonder.ImagePath = openFileDialog.FileName;
+                OnPropertyChanged(nameof(NewWonder));
+            }
         }
 
         private void Save(object? parameter)

@@ -30,9 +30,20 @@
                   BorderThickness="1" BorderBrush="Gray">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                    <GridViewColumn Header="Lokalizacja" DisplayMemberBinding="{Binding Location}" Width="150"/>
-                    <GridViewColumn Header="Opis" DisplayMemberBinding="{Binding Description}" Width="300"/>
+                    <GridViewColumn Header="Img" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding ImagePath}" Width="40" Height="40" Stretch="UniformToFill"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}" Width="180"/>
+                    <GridViewColumn Header="Lokalizacja" DisplayMemberBinding="{Binding Location}" Width="140"/>
+
+                    <GridViewColumn Header="Data" DisplayMemberBinding="{Binding DateBuilt, StringFormat=d}" Width="100"/>
+
+                    <GridViewColumn Header="Opis" DisplayMemberBinding="{Binding Description}" Width="250"/>
                 </GridView>
             </ListView.View>
         </ListView>
