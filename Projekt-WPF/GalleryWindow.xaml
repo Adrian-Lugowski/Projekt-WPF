@@ -72,7 +72,7 @@
                 <TextBlock Text="{Binding CurrentWonder.Location}" Foreground="#DDDDDD" FontSize="18" Margin="0,0,20,0"/>
 
                 <TextBlock Text="📅 " Foreground="Yellow" FontSize="18"/>
-                <TextBlock Text="{Binding CurrentWonder.DateBuilt, StringFormat=yyyy}" Foreground="#DDDDDD" FontSize="18"/>
+                <TextBlock Text="{Binding CurrentWonder.DateBuilt}" Foreground="#DDDDDD" FontSize="18"/>
             </StackPanel>
 
             <TextBlock Text="{Binding CurrentWonder.Description}" 

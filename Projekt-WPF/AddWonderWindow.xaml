@@ -13,7 +13,7 @@
                 <TextBox Text="{Binding NewWonder.Location}" Margin="0,5,0,10" Padding="5"/>
 
                 <TextBlock Text="Data budowy:" FontWeight="Bold"/>
-                <DatePicker SelectedDate="{Binding NewWonder.DateBuilt}" Margin="0,5,0,10" Padding="5"/>
+                <TextBox Text="{Binding NewWonder.DateBuilt}" Margin="0,5,0,10" Padding="5"/>
 
                 <TextBlock Text="Zdjęcie:" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,10">

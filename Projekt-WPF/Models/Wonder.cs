@@ -16,6 +16,6 @@ namespace Projekt_WPF.Models
 
         public string ImagePath { get; set; } = string.Empty;
 
-        public DateTime DateBuilt { get; set; } = DateTime.Now;
+        public string DateBuilt { get; set; } = string.Empty;
     }
 }
