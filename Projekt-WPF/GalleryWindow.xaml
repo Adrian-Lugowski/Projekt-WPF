@@ -1,0 +1,135 @@
+﻿<Window x:Class="Projekt_WPF.GalleryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Projekt_WPF.ViewModels"
+        xmlns:validators="clr-namespace:Projekt_WPF.Validators"
+        Title="Galeria Cudów Świata" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBlock Text="Odkryj Cuda Świata" FontSize="28" FontWeight="Light" Foreground="#333"/>
+
+            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="20,0"/>
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Pokaż wybudowane po roku:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                <TextBox Width="100" Padding="5" VerticalAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="FilterYear" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:YearValidationRule ValidationStep="RawProposedValue"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Wonders}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Background="Transparent" BorderThickness="0">
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="250" Height="350" Margin="10">
+                        <Grid.Effect>
+                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" Opacity="0.3" BlurRadius="10"/>
+                        </Grid.Effect>
+
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="CardScale" ScaleX="1" CenterX="125"/>
+                        </Grid.RenderTransform>
+
+                        <Border x:Name="FrontSide" Background="White" CornerRadius="10" ClipToBounds="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="60"/>
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding ImagePath}" Stretch="UniformToFill" Grid.Row="0"/>
+                                <Border Grid.Row="1" Background="White">
+                                    <TextBlock Text="{Binding Name}" 
+                                               FontSize="18" FontWeight="Bold" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                               TextWrapping="Wrap" TextAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <Border x:Name="BackSide" Background="#333333" CornerRadius="10" Visibility="Hidden" Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TextBlock Text="{Binding Location}" Foreground="#AAAAAA" FontStyle="Italic" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding DateBuilt, StringFormat='Rok budowy: {0:yyyy}'}" Foreground="#AAAAAA" Margin="0,0,0,15"/>
+                                <TextBlock Text="{Binding Description}" Foreground="White" TextWrapping="Wrap" FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX"
+                                                         To="0" Duration="0:0:0.2"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FrontSide" Storyboard.TargetProperty="Visibility" BeginTime="0:0:0.2">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackSide" Storyboard.TargetProperty="Visibility" BeginTime="0:0:0.2">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX"
+                                                         To="1" BeginTime="0:0:0.2" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX"
+                                                         To="0" Duration="0:0:0.2"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FrontSide" Storyboard.TargetProperty="Visibility" BeginTime="0:0:0.2">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackSide" Storyboard.TargetProperty="Visibility" BeginTime="0:0:0.2">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation Storyboard.TargetName="CardScale" Storyboard.TargetProperty="ScaleX"
+                                                         To="1" BeginTime="0:0:0.2" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
