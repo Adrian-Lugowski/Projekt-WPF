@@ -37,7 +37,7 @@
                     Height="40" Width="150" HorizontalAlignment="Center" Margin="0,20,0,0" Background="Transparent" BorderBrush="Gray"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="2" Text="Projekt WPF v1.0" 
+        <TextBlock Grid.Row="2" Text="Adrian Ługowski" 
                    HorizontalAlignment="Center" Foreground="LightGray" FontSize="10"/>
     </Grid>
 </Window>
